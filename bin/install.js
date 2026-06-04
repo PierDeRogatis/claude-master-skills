@@ -6,7 +6,9 @@
  * Options:
  *   --target <path>      Target project directory (default: cwd)
  *   --dry-run            Print what would happen, write nothing
- *   --template <name>    Override auto-detected template (nextjs-app | node-api | typescript-lib)
+ *   --template <name>    Override auto-detected template
+ *                        (nextjs-app | supabase-nextjs | node-api | typescript-lib |
+ *                         python-api | monorepo | react-native | cli-tool | astro-site)
  *   --hooks-only         Skip template copy, only merge hooks
  *   --no-hooks           Skip hook installation
  */
@@ -81,11 +83,45 @@ function ask(question) {
 function detectProjectType() {
   const pkgPath = path.join(TARGET, "package.json");
   const pkg = readJson(pkgPath);
+
+  // Python project — check for pyproject.toml or requirements.txt
+  if (
+    fs.existsSync(path.join(TARGET, "pyproject.toml")) ||
+    fs.existsSync(path.join(TARGET, "requirements.txt"))
+  ) {
+    return "python-api";
+  }
+
   if (!pkg) return "generic";
+
   const deps = { ...pkg.dependencies, ...pkg.devDependencies };
+
+  // Monorepo — has pnpm/npm workspaces
+  if (pkg.workspaces || fs.existsSync(path.join(TARGET, "pnpm-workspace.yaml"))) {
+    return "monorepo";
+  }
+
+  // Astro site
+  if (deps.astro) return "astro-site";
+
+  // React Native / Expo
+  if (deps.expo || deps["react-native"]) return "react-native";
+
+  // Supabase + Next.js (must come before plain nextjs check)
+  if (deps["@supabase/supabase-js"] && deps.next) return "supabase-nextjs";
+
+  // Plain Next.js
   if (deps.next) return "nextjs-app";
-  if (deps.hono || deps.express) return "node-api";
+
+  // CLI tool — has a bin field in package.json
+  if (pkg.bin && Object.keys(pkg.bin).length > 0) return "cli-tool";
+
+  // Node API
+  if (deps.hono || deps.express || deps.fastify || deps.koa) return "node-api";
+
+  // TypeScript library
   if (deps.typescript) return "typescript-lib";
+
   return "generic";
 }
 

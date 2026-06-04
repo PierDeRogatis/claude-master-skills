@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Hook manifest — install.js merges these into target project's .claude/settings.json",
   "hooks": [
     {
@@ -11,6 +11,14 @@
       "required": false
     },
     {
+      "id": "context-loader",
+      "event": "UserPromptSubmit",
+      "script": "hooks/context-loader.js",
+      "description": "Loads CLAUDE.md summary into context on first user message of a session",
+      "runtime": "node",
+      "required": false
+    },
+    {
       "id": "pre-tool-check",
       "event": "PreToolUse",
       "matcher": { "tool": "Bash" },
@@ -18,6 +26,50 @@
       "description": "Intercepts destructive Bash commands and surfaces a warning before execution",
       "runtime": "node",
       "required": true
+    },
+    {
+      "id": "branch-guard",
+      "event": "PreToolUse",
+      "matcher": { "tool": "Bash" },
+      "script": "hooks/branch-guard.js",
+      "description": "Warns before committing or pushing directly on main/master branch",
+      "runtime": "node",
+      "required": false
+    },
+    {
+      "id": "secret-scanner",
+      "event": "PreToolUse",
+      "matcher": { "tool": "Bash" },
+      "script": "hooks/secret-scanner.js",
+      "description": "Scans staged files for secret patterns before git commit or push",
+      "runtime": "node",
+      "required": true
+    },
+    {
+      "id": "dependency-audit",
+      "event": "PreToolUse",
+      "matcher": { "tool": "Bash" },
+      "script": "hooks/dependency-audit.js",
+      "description": "Reminds to run security audit after adding new dependencies",
+      "runtime": "node",
+      "required": false
+    },
+    {
+      "id": "test-reminder",
+      "event": "PostToolUse",
+      "matcher": { "tool": ["Write", "Edit"] },
+      "script": "hooks/test-reminder.js",
+      "description": "Reminds to run tests after modifying source code files",
+      "runtime": "node",
+      "required": false
+    },
+    {
+      "id": "task-summary",
+      "event": "PostToolUse",
+      "script": "hooks/task-summary.js",
+      "description": "Emits a summary of uncommitted changed files after tool use (when ≥2 files changed)",
+      "runtime": "node",
+      "required": false
     },
     {
       "id": "statusline",

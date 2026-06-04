@@ -1,6 +1,6 @@
 # claude-master-skills
 
-Skills, subagents, hooks, and CLAUDE.md templates for Claude Code — scoped to the **Next.js / TypeScript / Vercel** stack.
+Skills, subagents, hooks, and CLAUDE.md templates for Claude Code — covering **Next.js, Python, React Native, Astro, monorepos, and more**.
 
 Synthesized from: [superpowers](https://github.com/obra/superpowers), [ECC](https://github.com/affaan-m/everything-claude-code), [anthropics/skills](https://github.com/anthropics/skills), [caveman](https://github.com/JuliusBrussee/caveman), [impeccable](https://github.com/pbakaus/impeccable), [VoltAgent subagents](https://github.com/VoltAgent/awesome-claude-code-subagents), [karpathy-guidelines](https://github.com/multica-ai/andrej-karpathy-skills), [vercel/next.js](https://github.com/vercel/next.js) CLAUDE.md, and [awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code).
 
@@ -12,8 +12,8 @@ Synthesized from: [superpowers](https://github.com/obra/superpowers), [ECC](http
 |------|-------|-------------|
 | Skills | 12 | SKILL.md files for TDD, code review, debugging, planning, Next.js, security, git, UI/UX, Claude API, Karpathy guidelines, caveman mode, verification |
 | Subagents | 9 | YAML agent definitions: architect, code-reviewer, typescript-specialist, security-reviewer, test-engineer, refactor-agent, doc-writer, api-designer, nextjs-specialist |
-| Hooks | 3 | session-start (project detection), pre-tool-check (destructive command warning), statusline (active skills display) |
-| CLAUDE.md templates | 3 | nextjs-app, node-api, typescript-lib |
+| Hooks | 9 | session-start, context-loader, pre-tool-check, branch-guard, secret-scanner, dependency-audit, test-reminder, task-summary, statusline |
+| CLAUDE.md templates | 9 | nextjs-app, supabase-nextjs, node-api, typescript-lib, python-api, monorepo, react-native, cli-tool, astro-site |
 
 ---
 
@@ -36,16 +36,18 @@ node claude-master-skills/bin/install.js --target /path/to/your-project
 ```
 
 This will:
-1. Detect your project type (nextjs-app / node-api / typescript-lib)
+1. Auto-detect project type (Next.js, Supabase, Python, Expo, Astro, monorepo, CLI, Node API, TypeScript lib)
 2. Copy the matching CLAUDE.md template to your project root
-3. Register the three hooks in `.claude/settings.json`
+3. Register all 9 hooks in `.claude/settings.json`
 4. Register the plugin in `.claude/plugins.json`
 
 **Options:**
 ```
 --target <path>      Target project (default: cwd)
 --dry-run            Preview changes, write nothing
---template <name>    Override detected template
+--template <name>    Override detected template:
+                     nextjs-app | supabase-nextjs | node-api | typescript-lib
+                     python-api | monorepo | react-native | cli-tool | astro-site
 --hooks-only         Skip CLAUDE.md copy
 --no-hooks           Skip hook installation
 ```
@@ -111,8 +113,14 @@ cp agents/architect.yaml ~/.claude/agents/architect.yaml
 
 | Hook | Event | What it does |
 |------|-------|--------------|
-| `session-start.js` | SessionStart | Reads `package.json`, emits project type + relevant skills |
+| `session-start.js` | SessionStart | Detects project type, emits relevant skills hint |
+| `context-loader.js` | UserPromptSubmit | Loads first 40 lines of CLAUDE.md on session's first message |
 | `pre-tool-check.js` | PreToolUse(Bash) | Warns on `rm -rf`, force push, `git reset --hard`, DROP TABLE, etc. |
+| `branch-guard.js` | PreToolUse(Bash) | Warns before committing/pushing directly on `main`/`master` |
+| `secret-scanner.js` | PreToolUse(Bash) | Scans staged files for API keys, tokens, hardcoded passwords before commit/push |
+| `dependency-audit.js` | PreToolUse(Bash) | Reminds to run `pnpm audit` / `pip-audit` after `add`/`install` |
+| `test-reminder.js` | PostToolUse(Write/Edit) | Reminds to run tests after modifying `.ts/.tsx/.js/.py` files |
+| `task-summary.js` | PostToolUse | Emits count of uncommitted changed files when ≥2 files are modified |
 | `statusline.sh` | PostToolUse | Writes active-skills line to `~/.claude_statusline` |
 
 Hooks are **read-only watchers** — they do not modify your project files.
@@ -121,13 +129,19 @@ Hooks are **read-only watchers** — they do not modify your project files.
 
 ## CLAUDE.md Templates
 
-Ready-to-use starter files with project commands, architecture conventions, git rules, and a skills table.
+Ready-to-use starter files with project commands, architecture conventions, git rules, and a skills table. Auto-detected by the installer; override with `--template <name>`.
 
-| Template | For |
-|----------|-----|
-| `templates/nextjs-app/CLAUDE.md` | Next.js 14+ App Router projects |
-| `templates/node-api/CLAUDE.md` | Hono/Express TypeScript APIs |
-| `templates/typescript-lib/CLAUDE.md` | TypeScript libraries with Changesets |
+| Template | Auto-detected when | Stack |
+|----------|--------------------|-------|
+| `nextjs-app` | `next` in deps | Next.js 14+ App Router, pnpm, Vercel |
+| `supabase-nextjs` | `@supabase/supabase-js` + `next` | Next.js + Supabase Auth/DB/Storage/Realtime |
+| `node-api` | `hono`/`express`/`fastify`/`koa` in deps | Node.js REST API, TypeScript |
+| `typescript-lib` | `typescript` only | TypeScript library with Changesets |
+| `python-api` | `pyproject.toml` or `requirements.txt` present | FastAPI, Pydantic v2, uv, pytest |
+| `monorepo` | `workspaces` field or `pnpm-workspace.yaml` | Turborepo + pnpm workspaces |
+| `react-native` | `expo` or `react-native` in deps | React Native + Expo Router + EAS |
+| `cli-tool` | `bin` field in `package.json` | Node.js CLI with Commander/esbuild |
+| `astro-site` | `astro` in deps | Astro 4+ with Content Collections |
 
 Edit after copying: replace `[PROJECT_NAME]` and add your specific stack details.
 
