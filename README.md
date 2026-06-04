@@ -181,6 +181,12 @@ Quality bar: hooks must exit 0 always; skills must have TRIGGER/SKIP; templates 
 
 ---
 
+## Acknowledgements
+
+This repo was made possible by **[Luca Luigi Gallo](https://github.com/LucaLuigiGallo)** ([@LucaLuigiGallo](https://github.com/LucaLuigiGallo)), who selected all the reference repositories and did the research that this collection is built on. The idea for the repo came from [@PierDeRogatis](https://github.com/PierDeRogatis) — but the curation and source discovery are Luca's work.
+
+---
+
 ## Sources & Attribution
 
 This collection synthesizes patterns from:
