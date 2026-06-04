@@ -3,48 +3,36 @@
  * SessionStart hook — detects project type and emits a context hint.
  * Claude Code pipes stdout into the context window at session open.
  * Silent on all errors so it never blocks session startup.
+ * Uses the shared detectProjectType() from bin/install.js.
  */
 
-const fs = require("fs");
 const path = require("path");
 
-function detectProjectType(cwd) {
-  try {
-    const pkgPath = path.join(cwd, "package.json");
-    if (!fs.existsSync(pkgPath)) return null;
-    const pkg = JSON.parse(fs.readFileSync(pkgPath, "utf8"));
-    const deps = {
-      ...pkg.dependencies,
-      ...pkg.devDependencies,
-    };
-    if (deps.next) return "nextjs-app";
-    if (deps.hono || deps.express) return "node-api";
-    if (deps.typescript) return "typescript-lib";
-    return "generic";
-  } catch {
-    return null;
-  }
-}
+const SKILLS_BY_TYPE = {
+  "nextjs-app":       ["nextjs-patterns", "git-workflow", "tdd-workflow", "ui-ux-design"],
+  "supabase-nextjs":  ["nextjs-patterns", "security-review", "tdd-workflow", "git-workflow"],
+  "node-api":         ["tdd-workflow", "code-review", "security-review", "git-workflow"],
+  "typescript-lib":   ["tdd-workflow", "karpathy-guidelines", "verification"],
+  "python-api":       ["tdd-workflow", "code-review", "security-review", "git-workflow"],
+  "monorepo":         ["planning", "tdd-workflow", "code-review", "karpathy-guidelines"],
+  "react-native":     ["tdd-workflow", "code-review", "security-review", "verification"],
+  "cli-tool":         ["karpathy-guidelines", "tdd-workflow", "git-workflow"],
+  "astro-site":       ["ui-ux-design", "tdd-workflow", "git-workflow"],
+  "generic":          ["planning", "code-review", "verification"],
+};
 
 try {
   const cwd = process.env.CLAUDE_PROJECT_DIR || process.cwd();
+  const repoRoot = path.resolve(__dirname, "..");
+  const { detectProjectType } = require(path.join(repoRoot, "bin", "install"));
   const type = detectProjectType(cwd);
-  if (type) {
+  if (type && type !== "generic") {
+    const skills = SKILLS_BY_TYPE[type] || SKILLS_BY_TYPE.generic;
     process.stdout.write(
       `[claude-master-skills] Project type detected: ${type}. ` +
-        `Relevant skills: ${getSkillsForType(type).join(", ")}.\n`
+        `Relevant skills: ${skills.join(", ")}.\n`
     );
   }
 } catch {
   // Never block session startup
-}
-
-function getSkillsForType(type) {
-  const map = {
-    "nextjs-app": ["nextjs-patterns", "git-workflow", "tdd-workflow", "ui-ux-design"],
-    "node-api": ["tdd-workflow", "code-review", "security-review", "git-workflow"],
-    "typescript-lib": ["tdd-workflow", "karpathy-guidelines", "verification"],
-    "generic": ["planning", "code-review", "verification"],
-  };
-  return map[type] || map.generic;
 }

@@ -10,7 +10,7 @@ Synthesized from: [superpowers](https://github.com/obra/superpowers), [ECC](http
 
 | Type | Count | Description |
 |------|-------|-------------|
-| Skills | 12 | SKILL.md files for TDD, code review, debugging, planning, Next.js, security, git, UI/UX, Claude API, Karpathy guidelines, caveman mode, verification |
+| Skills | 13 | SKILL.md files for TDD, code review, debugging, planning, Next.js, security, git, UI/UX, Claude API, Karpathy guidelines, caveman mode, verification + skill-navigator (meta) |
 | Subagents | 9 | YAML agent definitions: architect, code-reviewer, typescript-specialist, security-reviewer, test-engineer, refactor-agent, doc-writer, api-designer, nextjs-specialist |
 | Hooks | 9 | session-start, context-loader, pre-tool-check, branch-guard, secret-scanner, dependency-audit, test-reminder, task-summary, statusline |
 | CLAUDE.md templates | 9 | nextjs-app, supabase-nextjs, node-api, typescript-lib, python-api, monorepo, react-native, cli-tool, astro-site |
@@ -144,6 +144,40 @@ Ready-to-use starter files with project commands, architecture conventions, git 
 | `astro-site` | `astro` in deps | Astro 4+ with Content Collections |
 
 Edit after copying: replace `[PROJECT_NAME]` and add your specific stack details.
+
+---
+
+## Testing
+
+The repo ships with a full test suite using Node.js built-in `node:test` (no extra dependencies).
+
+```bash
+# Run all tests
+node --test 'tests/**/*.test.js'
+
+# By category
+node --test 'tests/hooks/*.test.js'       # hook unit tests (stdin/stdout)
+node --test 'tests/installer/*.test.js'   # detectProjectType() cases
+node --test 'tests/templates/*.test.js'   # template structure validation
+```
+
+**112 tests** covering:
+- All 8 hook scripts (branch-guard, secret-scanner, pre-tool-check, test-reminder, dependency-audit, context-loader, task-summary, session-start)
+- All 13 `detectProjectType()` cases including priority order
+- All 9 CLAUDE.md templates (required sections + placeholder check)
+
+---
+
+## Contributing
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for the full guide.
+
+Quick summary:
+- **New skill**: open an issue with the `new-skill` template, or submit a PR
+- **New template**: open an issue with the `new-template` template, or submit a PR
+- **Bug report**: open an issue with the `bug-report` template
+
+Quality bar: hooks must exit 0 always; skills must have TRIGGER/SKIP; templates must have all 5 required sections. All 112 tests must pass.
 
 ---
 

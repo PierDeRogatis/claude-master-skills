@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Skills, subagents, hooks & CLAUDE.md templates for the Next.js/TypeScript/Vercel stack",
-    "version": "1.0.0"
+    "version": "1.1.0"
   },
   "plugins": [
     {
@@ -58,6 +58,20 @@
         "./skills/security-review",
         "./skills/karpathy-guidelines",
         "./skills/caveman-communication"
+      ]
+    },
+    {
+      "name": "meta",
+      "label": "Meta",
+      "description": "Skill navigation and onboarding — use skill-navigator when unsure which skill applies",
+      "source": "./",
+      "version": "1.0.0",
+      "author": { "name": "PierDeRogatis" },
+      "keywords": ["meta", "navigation", "onboarding"],
+      "category": "meta",
+      "strict": false,
+      "skills": [
+        "./skills/skill-navigator"
       ]
     }
   ]

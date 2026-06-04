@@ -80,14 +80,15 @@ function ask(question) {
 // Project type detection
 // ---------------------------------------------------------------------------
 
-function detectProjectType() {
-  const pkgPath = path.join(TARGET, "package.json");
+function detectProjectType(dir) {
+  const target = dir || TARGET;
+  const pkgPath = path.join(target, "package.json");
   const pkg = readJson(pkgPath);
 
   // Python project — check for pyproject.toml or requirements.txt
   if (
-    fs.existsSync(path.join(TARGET, "pyproject.toml")) ||
-    fs.existsSync(path.join(TARGET, "requirements.txt"))
+    fs.existsSync(path.join(target, "pyproject.toml")) ||
+    fs.existsSync(path.join(target, "requirements.txt"))
   ) {
     return "python-api";
   }
@@ -97,7 +98,7 @@ function detectProjectType() {
   const deps = { ...pkg.dependencies, ...pkg.devDependencies };
 
   // Monorepo — has pnpm/npm workspaces
-  if (pkg.workspaces || fs.existsSync(path.join(TARGET, "pnpm-workspace.yaml"))) {
+  if (pkg.workspaces || fs.existsSync(path.join(target, "pnpm-workspace.yaml"))) {
     return "monorepo";
   }
 
@@ -288,7 +289,11 @@ async function main() {
   log("Copy individual .yaml files to your project's .claude/agents/ to use them.");
 }
 
-main().catch((err) => {
-  console.error("[cms] Error:", err.message);
-  process.exit(1);
-});
+if (require.main === module) {
+  main().catch((err) => {
+    console.error("[cms] Error:", err.message);
+    process.exit(1);
+  });
+}
+
+module.exports = { detectProjectType };

@@ -2,7 +2,7 @@
 
 ## Project
 
-[LIBRARY_NAME] — [one-sentence description]
+[PROJECT_NAME] — [one-sentence description]
 
 **Stack:** TypeScript (strict) · pnpm · [Vitest / Jest] · [Changesets / np]
 
