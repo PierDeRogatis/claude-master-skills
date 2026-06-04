@@ -1,0 +1,64 @@
+{
+  "name": "claude-master-skills",
+  "id": "claude-master-skills",
+  "owner": {
+    "name": "PierDeRogatis"
+  },
+  "metadata": {
+    "description": "Skills, subagents, hooks & CLAUDE.md templates for the Next.js/TypeScript/Vercel stack",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "engineering-workflows",
+      "label": "Engineering Workflows",
+      "description": "TDD, code review, systematic debugging, verification — core engineering process skills",
+      "source": "./",
+      "version": "1.0.0",
+      "author": { "name": "PierDeRogatis" },
+      "keywords": ["tdd", "debugging", "code-review", "verification"],
+      "category": "engineering",
+      "strict": false,
+      "skills": [
+        "./skills/tdd-workflow",
+        "./skills/code-review",
+        "./skills/systematic-debugging",
+        "./skills/verification"
+      ]
+    },
+    {
+      "name": "nextjs-stack",
+      "label": "Next.js / Vercel Stack",
+      "description": "App Router patterns, git workflow, UI/UX design rules, Claude API integration",
+      "source": "./",
+      "version": "1.0.0",
+      "author": { "name": "PierDeRogatis" },
+      "keywords": ["nextjs", "vercel", "ui-ux", "claude-api", "typescript"],
+      "category": "stack",
+      "strict": false,
+      "skills": [
+        "./skills/nextjs-patterns",
+        "./skills/git-workflow",
+        "./skills/ui-ux-design",
+        "./skills/claude-api"
+      ]
+    },
+    {
+      "name": "process-architecture",
+      "label": "Process & Architecture",
+      "description": "Planning gates, security review, coding guidelines, communication style",
+      "source": "./",
+      "version": "1.0.0",
+      "author": { "name": "PierDeRogatis" },
+      "keywords": ["planning", "security", "guidelines", "communication"],
+      "category": "process",
+      "strict": false,
+      "skills": [
+        "./skills/planning",
+        "./skills/security-review",
+        "./skills/karpathy-guidelines",
+        "./skills/caveman-communication"
+      ]
+    }
+  ]
+}

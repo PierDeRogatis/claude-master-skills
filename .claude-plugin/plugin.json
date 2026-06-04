@@ -1,0 +1,24 @@
+{
+  "name": "claude-master-skills",
+  "version": "1.0.0",
+  "description": "Skills, subagents, hooks & CLAUDE.md templates for the Next.js/TypeScript/Vercel stack",
+  "author": {
+    "name": "PierDeRogatis"
+  },
+  "license": "MIT",
+  "keywords": ["nextjs", "typescript", "vercel", "tdd", "code-review", "skills"],
+  "skills": [
+    "./skills/tdd-workflow",
+    "./skills/code-review",
+    "./skills/systematic-debugging",
+    "./skills/planning",
+    "./skills/caveman-communication",
+    "./skills/nextjs-patterns",
+    "./skills/security-review",
+    "./skills/git-workflow",
+    "./skills/ui-ux-design",
+    "./skills/claude-api",
+    "./skills/karpathy-guidelines",
+    "./skills/verification"
+  ]
+}

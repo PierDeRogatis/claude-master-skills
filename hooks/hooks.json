@@ -1,0 +1,31 @@
+{
+  "version": "1.0.0",
+  "description": "Hook manifest — install.js merges these into target project's .claude/settings.json",
+  "hooks": [
+    {
+      "id": "session-start",
+      "event": "SessionStart",
+      "script": "hooks/session-start.js",
+      "description": "Detects project type from package.json and emits a one-line hint at session open",
+      "runtime": "node",
+      "required": false
+    },
+    {
+      "id": "pre-tool-check",
+      "event": "PreToolUse",
+      "matcher": { "tool": "Bash" },
+      "script": "hooks/pre-tool-check.js",
+      "description": "Intercepts destructive Bash commands and surfaces a warning before execution",
+      "runtime": "node",
+      "required": true
+    },
+    {
+      "id": "statusline",
+      "event": "PostToolUse",
+      "script": "hooks/statusline.sh",
+      "description": "Writes active-skill info to ~/.claude_statusline for terminal prompt display",
+      "runtime": "bash",
+      "required": false
+    }
+  ]
+}
