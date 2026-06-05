@@ -1,6 +1,6 @@
 {
   "name": "claude-master-skills",
-  "version": "1.0.0",
+  "version": "1.3.0",
   "description": "Skills, subagents, hooks & CLAUDE.md templates for the Next.js/TypeScript/Vercel stack",
   "author": "PierDeRogatis",
   "license": "MIT",

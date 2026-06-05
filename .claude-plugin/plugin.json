@@ -1,6 +1,6 @@
 {
   "name": "claude-master-skills",
-  "version": "1.0.0",
+  "version": "1.3.0",
   "description": "Skills, subagents, hooks & CLAUDE.md templates for the Next.js/TypeScript/Vercel stack",
   "author": {
     "name": "PierDeRogatis"
@@ -19,6 +19,10 @@
     "./skills/ui-ux-design",
     "./skills/claude-api",
     "./skills/karpathy-guidelines",
-    "./skills/verification"
+    "./skills/verification",
+    "./skills/skill-navigator",
+    "./skills/accessibility",
+    "./skills/database-migrations",
+    "./skills/skill-author"
   ]
 }

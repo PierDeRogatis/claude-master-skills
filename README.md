@@ -1,5 +1,9 @@
 # claude-master-skills
 
+[![Tests](https://github.com/PierDeRogatis/claude-master-skills/actions/workflows/test.yml/badge.svg)](https://github.com/PierDeRogatis/claude-master-skills/actions/workflows/test.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![Skills](https://img.shields.io/badge/skills-16-blue)](#skills)
+
 Skills, subagents, hooks, and CLAUDE.md templates for Claude Code — covering **Next.js, Python, React Native, Astro, monorepos, and more**.
 
 Synthesized from: [superpowers](https://github.com/obra/superpowers), [ECC](https://github.com/affaan-m/everything-claude-code), [anthropics/skills](https://github.com/anthropics/skills), [caveman](https://github.com/JuliusBrussee/caveman), [impeccable](https://github.com/pbakaus/impeccable), [VoltAgent subagents](https://github.com/VoltAgent/awesome-claude-code-subagents), [karpathy-guidelines](https://github.com/multica-ai/andrej-karpathy-skills), [vercel/next.js](https://github.com/vercel/next.js) CLAUDE.md, and [awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code).
@@ -10,7 +14,7 @@ Synthesized from: [superpowers](https://github.com/obra/superpowers), [ECC](http
 
 | Type | Count | Description |
 |------|-------|-------------|
-| Skills | 13 | SKILL.md files for TDD, code review, debugging, planning, Next.js, security, git, UI/UX, Claude API, Karpathy guidelines, caveman mode, verification + skill-navigator (meta) |
+| Skills | 16 | SKILL.md files for TDD, code review, debugging, planning, Next.js, security, git, UI/UX, Claude API, Karpathy guidelines, caveman mode, verification, accessibility, database-migrations, skill-navigator, skill-author |
 | Subagents | 9 | YAML agent definitions: architect, code-reviewer, typescript-specialist, security-reviewer, test-engineer, refactor-agent, doc-writer, api-designer, nextjs-specialist |
 | Hooks | 9 | session-start, context-loader, pre-tool-check, branch-guard, secret-scanner, dependency-audit, test-reminder, task-summary, statusline |
 | CLAUDE.md templates | 9 | nextjs-app, supabase-nextjs, node-api, typescript-lib, python-api, monorepo, react-native, cli-tool, astro-site |
