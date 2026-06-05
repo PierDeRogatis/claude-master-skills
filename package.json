@@ -9,10 +9,10 @@
   },
   "scripts": {
     "install-skills": "node bin/install.js",
-    "test": "node --test 'tests/**/*.test.js'",
-    "test:hooks": "node --test 'tests/hooks/*.test.js'",
-    "test:installer": "node --test 'tests/installer/*.test.js'",
-    "test:templates": "node --test 'tests/templates/*.test.js'"
+    "test": "node --test $(find tests -name '*.test.js' -type f | sort)",
+    "test:hooks": "node --test $(find tests/hooks -name '*.test.js' -type f | sort)",
+    "test:installer": "node --test $(find tests/installer -name '*.test.js' -type f | sort)",
+    "test:templates": "node --test $(find tests/templates -name '*.test.js' -type f | sort)"
   },
   "keywords": [
     "claude",
